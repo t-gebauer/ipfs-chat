@@ -1,0 +1,9 @@
+# vim
+*.swp
+*.swo
+
+# npm
+node_modules/
+
+# browserify
+public/js/
