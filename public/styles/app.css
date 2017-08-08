@@ -1,14 +1,43 @@
 body {
   font: 14px "Century Gothic", Futura, sans-serif;
   margin: 20px;
+  color: white;
+  background-color: black;
 }
 
-ol, ul {
-  padding-left: 30px;
-}
+/* chat */
 
-.chat-text:after {
-  clear: both;
-  content: "";
-  display: table;
+div#chat_div {
+  height: 180px;
+  border: none;
+  width: 500px;
+}
+div#chat_list_div {
+  overflow-y: auto;
+  overflow-x: hidden;
+  word-wrap: break-word;
+  min-height: 179px;
+  max-height: 180px;
+}
+ul#chat_list {
+  list-style: none;
+  margin: 5px 5px;
+  padding: 0px 0px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  color: white;
+}
+ul#chat_list > li.error {
+  color: red;
+}
+ul#chat_list > li.system {
+  color: yellow;
+}
+input#chat_input {
+  border: none;
+  width: 100%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
