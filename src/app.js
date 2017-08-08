@@ -1,7 +1,7 @@
-console.log("hello world")
+console.log("Running script 'app.js'.")
 
-const IPFS = require("ipfs")
-const Room = require("ipfs-pubsub-room")
+import IPFS from "ipfs"
+import Room from "ipfs-pubsub-room"
 
 const ipfs = new IPFS({
 	repo: repo(),
@@ -23,3 +23,13 @@ room.on("peer left", (peer) => console.log("peer " + peer + " left"))
 function repo() {
 	return "ipfs/ipfs-chat/" + Math.random()
 }
+
+import ReactDOM from "react-dom"
+import React from "react"
+
+import App from "./components/App"
+
+ReactDOM.render(
+  <App />,
+  document.getElementById("root")
+)
