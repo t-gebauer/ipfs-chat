@@ -10,6 +10,10 @@
   },
   "author": "Timo Gebauer",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/t-gebauer/ipfs-chat.git"
+  },
   "dependencies": {
     "babelify": "^7.3.0",
     "browserify": "^14.4.0",
