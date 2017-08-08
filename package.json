@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "http-server -c-1 -p 8080 public",
-    "compile": "browserify -t [ babelify --presets [ es2015 ] ] src/app.js -o public/js/app.js -d"
+    "compile": "browserify -t [ babelify --presets [ es2015 ] ] src/app.js -o public/js/app.js -d",
+    "publish": "npm run compile; rm -r docs; cp -r public docs; rm docs/js/app.js; uglifyjs public/js/app.js -c -m -o docs/js/app.js"
   },
   "author": "Timo Gebauer",
   "license": "MIT",
@@ -14,6 +15,7 @@
     "browserify": "^14.4.0",
     "http-server": "^0.10.0",
     "ipfs": "^0.25.1",
-    "ipfs-pubsub-room": "^0.1.3"
+    "ipfs-pubsub-room": "^0.1.3",
+    "uglify-es": "^3.0.27"
   }
 }
