@@ -40,7 +40,7 @@ room.on("peer joined", (peer) => {
 })
 
 room.on("peer left", (peer) =>
-  chat.addMessage({type: "system", data: "Peer " + formatName(peer) + " left."})) 
+  chat.addMessage({type: "system", data: "Peer " + formatName(peer) + " left."}))
 
 room.on("message", (message) => {
   try {

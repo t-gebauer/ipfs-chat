@@ -6,7 +6,7 @@
   "scripts": {
     "start": "http-server -c-1 -p 8080 public",
     "compile": "browserify -t [ babelify --presets [ es2015 ] ] src/app.js -o public/js/app.js -d",
-    "publish": "npm run compile; rm -r docs; cp -r public docs; rm docs/js/app.js; uglifyjs public/js/app.js -c -m -o docs/js/app.js"
+    "publish": "npm run compile; rm -r docs; cp -r public docs; rm docs/js/app.js; uglifyjs public/js/app.js -c -o docs/js/app.js"
   },
   "author": "Timo Gebauer",
   "license": "MIT",
