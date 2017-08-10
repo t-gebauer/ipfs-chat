@@ -22,22 +22,10 @@ class ChatBox {
 
     chat_input.addEventListener("keydown", (e) => {
       if (!e) { var e = window.event }
-
       if (e.keyCode == 13 && chat_input.value != "") {
         this._onInput(chat_input.value)
         chat_input.value = ""
       }
-    })
-
-    // init commands
-    this.commands = {}
-    this.commandToken = "/"
-    this.addCommand("help", "Display this help message.", () => {
-      this.addSystemMessage("Available commands:\n")
-      Object.keys(this.commands).sort().forEach((k, i) => {
-        let command = this.commands[k]
-        this.addSystemMessage(this.commandToken + command.name + "\t" + command.description)
-      })
     })
   }
 
@@ -55,35 +43,12 @@ class ChatBox {
   }
 
   _onInput(message) {
-    if (message.startsWith(this.commandToken)) {
-      let args = message.slice(1).split(" ")
-      let name = args[0]
-      let command = this.commands[name]
-      if (command) {
-        command.fun.apply(this, args)
-      } else {
-        this.addSystemMessage("Unknown command '" + name + "'. Try " + this.commandToken + "help.")
-      }
-    } else {
-      if (!this.messageListener) { throw new Error("ChatBox: no messageListener set!") }
-      if (this.messageListener) { this.messageListener(message) }
-    }
+    if (!this.messageListener) { throw new Error("ChatBox: no messageListener set!") }
+    this.messageListener(message)
   }
 
   setMessageListener(listener) {
     this.messageListener = listener
-  }
-
-  addCommand(name, description, callback) {
-    this.commands[name] = {
-      name: name,
-      fun: callback,
-      description: description
-    }
-  }
-
-  setCommandToken(token) {
-    this.commandToken = token
   }
 }
 

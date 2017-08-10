@@ -90,10 +90,13 @@ function formatName(id) {
 }
 
 import ChatBox from "./chat-box.js"
+import CommandParser from "./command-parser.js"
 
 const chat = new ChatBox("chat_box")
-chat.setMessageListener((message) => room.broadcast(JSON.stringify({msg: message})))
-chat.addCommand("whoami", "Display your own peer id and name.", () => {
+const parser = new CommandParser((message) => chat.addSystemMessage(message))
+chat.setMessageListener((message) => parser.parseMessage(message))
+parser.setMessageListener((message) => room.broadcast(JSON.stringify({msg: message})))
+parser.addCommand("whoami", "Display your own peer id and name.", () => {
   if (myId) {
     let info = getInfo(myId)
     chat.addSystemMessage("I am " + info.id + ", known as " + info.name + ".")
@@ -102,10 +105,10 @@ chat.addCommand("whoami", "Display your own peer id and name.", () => {
     chat.addSystemMessage("I am " + myName + ".")
   }
 })
-chat.addCommand("peers", "List all known peers.", () => {
+parser.addCommand("peers", "List all known peers.", () => {
   chat.addSystemMessage("Peers: " + room.getPeers())
 })
-chat.addCommand("name", "Change your name.", (_, name) => {
+parser.addCommand("name", "Change your name.", (_, name) => {
   myName = name
   if (myId) {
     if (!name) { name = myId.slice(-6) }
