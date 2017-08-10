@@ -1,7 +1,12 @@
+"use strict"
+
+import EventEmitter from "events"
+
 /* Dynamically creates a ChatBox with a textarea and an text input field. */
-class ChatBox {
+class ChatBox extends EventEmitter {
 
   constructor(rootNodeId) {
+    super()
     let rootNode = document.getElementById(rootNodeId)
     if (!rootNode) { throw new Error("ChatBox: can't find element by id '" + rootNodeId + "'.") }
 
@@ -23,7 +28,7 @@ class ChatBox {
     chat_input.addEventListener("keydown", (e) => {
       if (!e) { var e = window.event }
       if (e.keyCode == 13 && chat_input.value != "") {
-        this._onInput(chat_input.value)
+        this.emit("input", chat_input.value)
         chat_input.value = ""
       }
     })
@@ -40,15 +45,6 @@ class ChatBox {
 
   addSystemMessage(msg) {
     this.addMessage({type: "system", data: msg})
-  }
-
-  _onInput(message) {
-    if (!this.messageListener) { throw new Error("ChatBox: no messageListener set!") }
-    this.messageListener(message)
-  }
-
-  setMessageListener(listener) {
-    this.messageListener = listener
   }
 }
 

@@ -1,4 +1,4 @@
-console.log("Running script 'app.js'.")
+"use strict"
 
 import IPFS from "ipfs"
 import Room from "ipfs-pubsub-room"
@@ -89,13 +89,21 @@ function formatName(id) {
   return "[" + info.number + (info.name ? ":" + info.name : "") + "]"
 }
 
+/* Inititalize ChatBox and CommandParser */
+
 import ChatBox from "./chat-box.js"
 import CommandParser from "./command-parser.js"
 
 const chat = new ChatBox("chat_box")
-const parser = new CommandParser((message) => chat.addSystemMessage(message))
-chat.setMessageListener((message) => parser.parseMessage(message))
-parser.setMessageListener((message) => room.broadcast(JSON.stringify({msg: message})))
+const parser = new CommandParser((feedback) => chat.addSystemMessage(feedback))
+
+chat.on("input", (message) => {
+  if (!parser.parse(message)) {
+    room.broadcast(JSON.stringify({msg: message}))
+  }
+})
+
+parser.addHelpCommand()
 parser.addCommand("whoami", "Display your own peer id and name.", () => {
   if (myId) {
     let info = getInfo(myId)
