@@ -33,13 +33,10 @@ class ChatBox {
     this.commands = {}
     this.commandToken = "/"
     this.addCommand("help", "Display this help message.", () => {
-      this.addMessage({type: "system", data: "Available commands:\n"})
+      this.addSystemMessage("Available commands:\n")
       Object.keys(this.commands).sort().forEach((k, i) => {
         let command = this.commands[k]
-        this.addMessage({
-          type: "system",
-          data: this.commandToken + command.name + "\t" + command.description
-        })
+        this.addSystemMessage(this.commandToken + command.name + "\t" + command.description)
       })
     })
   }
@@ -53,6 +50,10 @@ class ChatBox {
     this.chat_list_div.scrollTop = this.chat_list_div.scrollHeight
   }
 
+  addSystemMessage(msg) {
+    this.addMessage({type: "system", data: msg})
+  }
+
   _onInput(message) {
     if (message.startsWith(this.commandToken)) {
       let args = message.slice(1).split(" ")
@@ -61,10 +62,7 @@ class ChatBox {
       if (command) {
         command.fun.apply(this, args)
       } else {
-        this.addMessage({
-          type: "system",
-          data: "Unknown command '" + name + "'. Try " + this.commandToken + "help."
-        })
+        this.addSystemMessage("Unknown command '" + name + "'. Try " + this.commandToken + "help.")
       }
     } else {
       if (!this.messageListener) { throw new Error("ChatBox: no messageListener set!") }

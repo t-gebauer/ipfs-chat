@@ -15,9 +15,16 @@ function repo() {
   return "ipfs/ipfs-chat/" + Math.random()
 }
 
+var myId = undefined
+
 ipfs.once("ready", () => ipfs.id((err, info) => {
   if (err) { throw err }
-  peerInfo[info.id] = {id: info.id, number: 0, name: myName}
+  myId = info.id
+  peerInfo[info.id] = {
+    id: info.id,
+    number: 0,
+    name: myName ? myName : info.id.slice(-6)
+  }
   chat.addMessage({type: "system", data: "IPFS node ready with address " + info.id})
 }))
 
@@ -60,14 +67,18 @@ room.on("message", (message) => {
   }
 })
 
-var myName = "" + Math.random()
+var myName = undefined
 var counter = 0
 var peerInfo = {}
 
 function getInfo(id) {
   var info = peerInfo[id]
   if (!info) {
-    info = peerInfo[id] = {id: id, number: ++counter}
+    info = peerInfo[id] = {
+      id: id,
+      number: ++counter,
+      name: id.slice(-6)
+    }
   }
   return info
 }
@@ -82,3 +93,22 @@ import ChatBox from "./chat-box.js"
 
 const chat = new ChatBox("chat_box")
 chat.setMessageListener((message) => room.broadcast(JSON.stringify({msg: message})))
+chat.addCommand("whoami", "Display your own peer id and name.", () => {
+  if (myId) {
+    let info = getInfo(myId)
+    chat.addSystemMessage("I am " + info.id + ", known as " + info.name + ".")
+  } else {
+    // ipfs not started
+    chat.addSystemMessage("I am " + myName + ".")
+  }
+})
+chat.addCommand("peers", "List all known peers.", () => {
+  chat.addSystemMessage("Peers: " + room.getPeers())
+})
+chat.addCommand("name", "Change your name.", (_, name) => {
+  myName = name
+  if (myId) {
+    if (!name) { name = myId.slice(-6) }
+    room.broadcast(JSON.stringify({name: name}))
+  }
+})
