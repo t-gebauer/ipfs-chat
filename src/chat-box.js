@@ -24,6 +24,7 @@ class ChatBox extends EventEmitter {
     let chat_input = document.createElement("input")
     chat_input.className = "chat_box_input"
     rootNode.appendChild(chat_input)
+    chat_input.select()
 
     chat_input.addEventListener("keydown", (e) => {
       if (!e) { var e = window.event }
