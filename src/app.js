@@ -26,7 +26,7 @@ ipfs.once("ready", () => ipfs.id((err, info) => {
   chat.addMessage({type: "system", data: "IPFS node ready with address " + info.id})
 }))
 
-ipfs.on("error", (err) => chat.addMessage({type: "error", data: "Error: " + err}))
+ipfs.on("error", (err) => chat.addMessage({type: "error", data: "IpfsError: " + err}))
 
 const room = Room(ipfs, "ipfs-chat-room")
 
@@ -67,6 +67,8 @@ room.on("message", (message) => {
     }
   }
 })
+
+room.on("error", (err) => chat.addMessage({type: "error", data: "RoomError: " + err}))
 
 var lastPrivateFrom = undefined
 var myId = undefined
