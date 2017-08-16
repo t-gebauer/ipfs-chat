@@ -171,3 +171,6 @@ parser.addCommand("w", "Whisper to a selected peer.", (_, target, ...rest) => {
 parser.addCommand("r", "Reply to last private message.", (_, ...rest) => {
   trySendTo(lastPrivateFrom, rest.join(" "))
 })
+parser.addCommand("clear", "Clear the chat. Removes all messages.", () => {
+  chat.clear()
+})

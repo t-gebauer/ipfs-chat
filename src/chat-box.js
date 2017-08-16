@@ -47,6 +47,13 @@ class ChatBox extends EventEmitter {
   addSystemMessage(msg) {
     this.addMessage({type: "system", data: msg})
   }
+
+  clear() {
+    let ul = this.chat_list
+    while (ul.firstChild) {
+      ul.removeChild(ul.firstChild);
+    }
+  }
 }
 
 export default ChatBox
