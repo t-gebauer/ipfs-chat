@@ -1,5 +1,7 @@
+Does not work anymore. Address probably changed.
+
 # ipfs-chat
-Serverless chat application using IPFS pubsub.
+Serverless chat application using IPFS pub sub.
 
 Build with [ipfs-pubsub-room](https://github.com/ipfs-shipyard/ipfs-pubsub-room).
 
